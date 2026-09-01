@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite databases & logs
+*.db
+*.sqlite3
+*.log
+
+# Forensic outputs & scratch files
+test_ledger.jsonl
+forensic_audit_ledger.jsonl
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS specific
+.DS_Store
+Thumbs.db
