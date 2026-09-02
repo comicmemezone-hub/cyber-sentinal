@@ -15,11 +15,43 @@ let currentThreatFilter = "ALL";
 let currentPage = "page1";
 let selectedInspectAlertId = null;
 
-// ─── SIDEBAR TOGGLE HELPER ──────────────────────────────────────────────────
+// ─── PANEL SLIDE & POP-IN / POP-OUT HELPERS ─────────────────────────────────
 function toggleSidebar() {
   const sidebar = document.querySelector(".sidebar");
+  const btnText = document.getElementById("sidebarToggleText");
   if (sidebar) {
-    sidebar.classList.toggle("collapsed");
+    const isCollapsed = sidebar.classList.toggle("collapsed");
+    if (btnText) {
+      btnText.innerText = isCollapsed ? "Show Sidebar ▶" : "Sidebar";
+    }
+  }
+}
+
+function toggleKpis() {
+  const kpiGrid = document.getElementById("p1_kpiGrid");
+  const btnText = document.getElementById("kpiToggleText");
+  if (!kpiGrid) return;
+  const isCollapsed = kpiGrid.classList.toggle("collapsed");
+  if (btnText) {
+    btnText.innerHTML = isCollapsed ? "&#x25BC; Show KPIs" : "&#x25B2; Hide KPIs";
+  }
+}
+
+function toggleThreatDistribution() {
+  const card = document.getElementById("threatDistributionCard");
+  const chartsRow = document.getElementById("p1_chartsRow");
+  const showBtn = document.getElementById("showThreatDistBtn");
+  if (!card) return;
+  
+  const isCollapsed = card.classList.toggle("collapsed");
+  if (chartsRow) {
+    if (isCollapsed) {
+      chartsRow.classList.add("full-width");
+      if (showBtn) showBtn.style.display = "inline-flex";
+    } else {
+      chartsRow.classList.remove("full-width");
+      if (showBtn) showBtn.style.display = "none";
+    }
   }
 }
 

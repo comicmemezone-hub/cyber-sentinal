@@ -128,10 +128,13 @@
     <!-- TOP STATUS BAR -->
     <header class="top-bar">
       <div style="display: flex; align-items: center; gap: 14px;">
-        <button onclick="toggleSidebar()" id="sidebarToggleBtn" class="btn btn-secondary" style="padding: 7px 9px; display: flex; flex-direction: column; justify-content: center; gap: 3px; cursor: pointer;" title="Toggle Sidebar (Pop In / Pop Out)">
-          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
-          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
-          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+        <button onclick="toggleSidebar()" id="sidebarToggleBtn" class="btn btn-secondary" style="padding: 7px 11px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer;" title="Toggle Sidebar (Pop In / Pop Out)">
+          <span style="display: flex; flex-direction: column; gap: 3px;">
+            <span style="display: block; width: 14px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+            <span style="display: block; width: 14px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+            <span style="display: block; width: 14px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+          </span>
+          <span id="sidebarToggleText" style="font-size: 11px; font-weight: bold; color: #0f172a;">Sidebar</span>
         </button>
         <div>
           <h2 id="pageTitle" class="page-heading">Dashboard Overview</h2>
@@ -139,7 +142,10 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 8px;">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button onclick="toggleKpis()" id="kpiToggleBtn" class="btn btn-secondary" style="padding: 7px 12px; font-size: 11px;" title="Slide Out / Pop In KPI Metrics Cards">
+          <span id="kpiToggleText">&#x25B2; Hide KPIs</span>
+        </button>
         <button onclick="clearPipeline()" class="btn btn-secondary">Reset</button>
         <button onclick="exportAlerts()" class="btn btn-primary">Export JSON</button>
       </div>
@@ -151,7 +157,7 @@
     <div id="page1-content">
       
       <!-- TOP KPI METRICS ROW -->
-      <div class="kpi-grid">
+      <div class="kpi-grid" id="p1_kpiGrid">
         <div class="cyber-card">
           <div class="kpi-title">ACTIVE FLOWS</div>
           <div class="kpi-value" style="color: #0f172a;" id="p1_flows">0</div>
@@ -175,12 +181,17 @@
       </div>
 
       <!-- MAIN CHARTS ROW -->
-      <div class="grid-2col">
+      <div class="grid-2col" id="p1_chartsRow">
         <!-- Live Activity Graph -->
-        <div class="cyber-card">
+        <div class="cyber-card" id="activityGraphCard">
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
-            <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
-              LIVE NETWORK ACTIVITY (Flows/sec)
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
+                LIVE NETWORK ACTIVITY (Flows/sec)
+              </div>
+              <button onclick="toggleThreatDistribution()" id="showThreatDistBtn" class="btn btn-secondary" style="display: none; padding: 2px 8px; font-size: 10px;" title="Pop in Threat Distribution panel">
+                &#x25C0; Show Distribution
+              </button>
             </div>
             <span style="font-size: 10px; color: #dc2626; font-weight: bold; font-family: monospace;">10 Hz INGEST</span>
           </div>
@@ -190,9 +201,14 @@
         </div>
 
         <!-- Threat Distribution -->
-        <div class="cyber-card">
-          <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px; font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
-            THREAT DISTRIBUTION
+        <div class="cyber-card" id="threatDistributionCard">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+            <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
+              THREAT DISTRIBUTION
+            </div>
+            <button onclick="toggleThreatDistribution()" id="hideThreatDistBtn" class="btn btn-secondary" style="padding: 2px 8px; font-size: 10px;" title="Slide into disappearance">
+              Hide &#x25B6;
+            </button>
           </div>
           <div id="p1_threatDistributionList" style="display: flex; flex-direction: column; gap: 8px;">
             <!-- Populated dynamically -->

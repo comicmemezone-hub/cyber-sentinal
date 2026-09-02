@@ -195,6 +195,20 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-bottom: 20px;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin-bottom 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+  max-height: 250px;
+  opacity: 1;
+}
+
+.kpi-grid.collapsed {
+  max-height: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  opacity: 0 !important;
+  transform: translateY(-15px);
+  pointer-events: none;
 }
 
 .kpi-title {
@@ -219,12 +233,25 @@ body {
   font-family: 'Consolas', monospace;
 }
 
-/* Two Column Layout */
+/* Two Column Layout & Side Panel Collapse */
 .grid-2col {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
   margin-bottom: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.grid-2col.full-width {
+  grid-template-columns: 1fr !important;
+}
+
+#threatDistributionCard {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#threatDistributionCard.collapsed {
+  display: none !important;
 }
 
 .grid-3col {
