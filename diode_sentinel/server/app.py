@@ -310,6 +310,8 @@ async def run_live_benchmark(num_packets: int = 10000):
 @app.post("/api/clear")
 async def clear_pipeline_data():
     """Reset alerts, flow tables, and counters."""
+    streamer.stop()
+    simulator.stop()
     pipeline.clear_all()
     return {"status": "CLEARED", "message": "Pipeline alert and flow states have been reset"}
 

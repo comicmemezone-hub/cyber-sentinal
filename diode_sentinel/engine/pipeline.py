@@ -245,16 +245,8 @@ class ThreatPipeline:
         """Produce comprehensive real-time system metrics for the dashboard."""
         uptime = max(1.0, time.time() - self.start_time)
         active_flows = self.aggregator.get_all_active_flows()
-        
         recent_alerts_list = list(self.alerts)[:15]
-        if not recent_alerts_list and self.sqlite_store:
-            try:
-                db_alerts = self.sqlite_store.get_recent_alerts(limit=15)
-                recent_alerts_list = db_alerts
-            except Exception:
-                pass
-
-        total_alerts_count = len(self.alerts) or len(recent_alerts_list)
+        total_alerts_count = len(self.alerts)
 
         return {
             "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -272,9 +264,19 @@ class ThreatPipeline:
         }
 
     def clear_all(self):
-        """Reset internal states and alerts."""
+        """Reset internal states, counters, flows, and alerts."""
         self.aggregator = FlowAggregator()
         self.alerts.clear()
         self.last_alert_time.clear()
+        self.total_packets_processed = 0
+        self.total_bytes_processed = 0
+        self.current_pps = 0.0
+        self.current_mbps = 0.0
+        self.current_fps = 0.0
         for k in self.threat_counts:
             self.threat_counts[k] = 0
+        if self.sqlite_store:
+            try:
+                self.sqlite_store.clear_all()
+            except Exception:
+                pass

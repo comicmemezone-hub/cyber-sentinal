@@ -136,3 +136,14 @@ class SQLiteStore:
             cursor = conn.cursor()
             cursor.execute("SELECT threat_class, COUNT(*) as cnt FROM alerts GROUP BY threat_class")
             return {row["threat_class"]: row["cnt"] for row in cursor.fetchall()}
+
+    def clear_all(self):
+        """Wipe all stored alerts and flows from database."""
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM alerts")
+                cursor.execute("DELETE FROM flow_records")
+                conn.commit()
+        except Exception:
+            pass
