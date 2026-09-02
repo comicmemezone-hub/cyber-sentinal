@@ -251,29 +251,6 @@
     <!-- ================================================================= -->
     <div id="page2-content" class="hidden">
       
-      <!-- DUAL-NODE HACKATHON TEAM MULTI-MACHINE CONNECT BAR -->
-      <div class="cyber-card" style="margin-bottom: 18px; border-color: #fca5a5; background: #fff5f5;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-          <div>
-            <div style="font-size: 13px; font-weight: 800; color: #dc2626; font-family: monospace; display: flex; align-items: center; gap: 8px;">
-              <span>MULTI-MACHINE PRESENTATION SETUP</span>
-              <span style="font-size: 10px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171; padding: 2px 6px; border-radius: 4px;">ONLINE & LAN READY</span>
-            </div>
-            <p style="font-size: 11px; color: #64748b; font-family: monospace; margin-top: 4px;">
-              Teammates on the same network or cloud URL can view this dashboard or launch remote test attacks.
-            </p>
-          </div>
-          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
-              <span style="color: #64748b;">Dashboard URL:</span> <strong style="color: #dc2626;" id="lanDashboardUrl">http://localhost:8000</strong>
-            </div>
-            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
-              <span style="color: #64748b;">Teammate CLI:</span> <code style="color: #dc2626;">python team_client.py --interactive</code>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="grid-2col" style="margin-bottom: 20px;">
         
         <!-- Method 1: Continuous Real PCAP Pipeline -->
@@ -336,8 +313,8 @@
 
       </div>
 
-      <!-- SECONDARY INGESTION: PCAP UPLOAD & 1-CLICK ATTACKS -->
-      <div class="grid-2col" style="margin-bottom: 20px;">
+      <!-- SECONDARY INGESTION: PCAP UPLOAD -->
+      <div style="margin-bottom: 20px;">
         
         <!-- Upload Real PCAP -->
         <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px;">
@@ -367,24 +344,6 @@
             <p style="font-size: 11px; color: #475569; line-height: 1.4;" id="pcapDiagDesc">
               Identified rapid port sweep probing internal services across multiple destinations.
             </p>
-          </div>
-        </div>
-
-        <!-- 1-Click Attack Bursts -->
-        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 8px;">
-          <div style="font-size: 13px; font-weight: bold; color: #dc2626; font-family: monospace;">
-            1-Click Live Attack Injections
-          </div>
-          <p style="font-size: 11px; color: #64748b; font-family: monospace;">
-            Inject multi-vector cyber attacks into diode stream:
-          </p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-            <button onclick="injectAttack('syn_flood')" class="btn-attack">SYN Flood</button>
-            <button onclick="injectAttack('c2_beacon')" class="btn-attack">C2 Beacon</button>
-            <button onclick="injectAttack('dns_tunnel')" class="btn-attack">DNS Tunnel</button>
-            <button onclick="injectAttack('dga')" class="btn-attack">DGA Domain</button>
-            <button onclick="injectAttack('tls_malware')" class="btn-attack">TLS JA3 RAT</button>
-            <button onclick="injectAttack('port_scan')" class="btn-attack">Port Scan</button>
           </div>
         </div>
       </div>
