@@ -54,6 +54,7 @@ class ContinuousPcapStreamer:
             Path("datasets").resolve(),
             Path("../datasets").resolve()
         ]
+        base_dir = next((p for p in candidates if p.exists()), Path("datasets"))
         # Stream authentic clean benign enterprise traffic by default (0 baseline threats)
         benign_files = list((base_dir / "benign").glob("*.pcap"))
         pcap_files = benign_files if benign_files else [base_dir / "benign" / "normal_traffic.pcap"]

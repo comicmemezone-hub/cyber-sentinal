@@ -366,9 +366,10 @@ async def get_sniffer_status():
     return sniffer.get_status()
 
 @app.post("/api/sniffer/start")
-async def start_live_sniffer(interface_ip: Optional[str] = None):
+async def start_live_sniffer(interface_ip: Optional[str] = None, interface: Optional[str] = None):
     """Start real-time raw socket sniffing on active network interface."""
-    return sniffer.start(interface_ip)
+    ip = interface_ip or interface
+    return sniffer.start(ip)
 
 @app.post("/api/sniffer/stop")
 async def stop_live_sniffer():

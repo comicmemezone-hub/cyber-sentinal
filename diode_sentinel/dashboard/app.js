@@ -228,11 +228,11 @@ function renderTelemetry(data) {
   alertsMap  = {};
   alertsData.forEach(a => { alertsMap[a.alert_id] = a; });
 
-  const activeFlows   = data.active_flows_count  ?? 0;
-  const totalThreats  = data.total_threats_count  ?? alertsData.length;
-  const pps           = data.packets_per_sec      ?? 0;
-  const kbps          = data.kbps                 ?? 0;
-  const mbps          = (kbps / 1000).toFixed(2);
+  const activeFlows   = data.active_flows_count ?? 0;
+  const totalThreats  = data.total_threats_count ?? data.total_alerts ?? alertsData.length;
+  const pps           = data.packets_per_sec ?? data.current_pps ?? 0;
+  const mbps          = (data.current_mbps !== undefined ? Number(data.current_mbps) : (data.mbps !== undefined ? Number(data.mbps) : (data.kbps ? Number(data.kbps) / 1000 : 0))).toFixed(2);
+  const totalPkts     = data.total_packets_processed ?? data.total_packets ?? 0;
 
   const critCount = alertsData.filter(a => a.severity === "CRITICAL").length;
 
@@ -242,7 +242,7 @@ function renderTelemetry(data) {
   setText("p1_flows_sec", Math.round(pps).toLocaleString());
   setText("p1_mbps",      `${mbps} Mbps`);
 
-  setText("p2_pkts",  (data.total_packets_processed || 0).toLocaleString());
+  setText("p2_pkts",  totalPkts.toLocaleString());
   setText("p2_flows", activeFlows.toLocaleString());
   setText("p2_rate",  `${Math.round(pps)} flows/s`);
 
@@ -633,7 +633,7 @@ async function startSniffer() {
   const ifaceSelect = document.getElementById("interfaceSelect");
   const iface = ifaceSelect ? ifaceSelect.value : "127.0.0.1";
   try {
-    const res = await fetch(`/api/sniffer/start?interface=${encodeURIComponent(iface)}`, { method: "POST" });
+    const res = await fetch(`/api/sniffer/start?interface_ip=${encodeURIComponent(iface)}&interface=${encodeURIComponent(iface)}`, { method: "POST" });
     const d = await res.json();
     updateSnifferUI(true, iface, d.mode);
     checkSnifferStatus();
@@ -653,8 +653,22 @@ async function checkSnifferStatus() {
     const res = await fetch("/api/sniffer/status");
     if (res.ok) {
       const d = await res.json();
-      updateSnifferUI(d.is_running, d.interface, d.mode);
-      setText("sniffedCount", (d.packets_captured || 0).toLocaleString());
+      updateSnifferUI(d.is_running, d.active_interface || d.interface, d.mode);
+      setText("sniffedCount", (d.total_packets_sniffed || d.packets_captured || 0).toLocaleString());
+
+      // Dynamically populate network interfaces available on host
+      const ifaceSelect = document.getElementById("interfaceSelect");
+      if (ifaceSelect && d.available_interfaces && d.available_interfaces.length > 0 && ifaceSelect.options.length <= 2) {
+        const cur = ifaceSelect.value;
+        ifaceSelect.innerHTML = "";
+        d.available_interfaces.forEach(ip => {
+          const opt = document.createElement("option");
+          opt.value = ip;
+          opt.innerText = ip === "127.0.0.1" ? "127.0.0.1 (Local Loopback)" : `${ip} (Physical Adapter)`;
+          if (ip === cur) opt.selected = true;
+          ifaceSelect.appendChild(opt);
+        });
+      }
     }
   } catch(e) {}
 }
