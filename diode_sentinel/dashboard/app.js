@@ -13,6 +13,15 @@ let chartLabels = [];
 let chartDataPoints = [];
 let currentThreatFilter = "ALL";
 let currentPage = "page1";
+let selectedInspectAlertId = null;
+
+// ─── SIDEBAR TOGGLE HELPER ──────────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar) {
+    sidebar.classList.toggle("collapsed");
+  }
+}
 
 // ─── CORE DOM HELPER ──────────────────────────────────────────────────────────
 function setText(id, value) {
@@ -303,7 +312,7 @@ function renderAlertsTable(tbodyId, rows) {
     };
     const mitreTag = MITRE_TAGS[a.threat_class] || "T1046";
 
-    return `<tr style="cursor:pointer;" onclick="openModal('${aid}')">
+    return `<tr style="cursor:pointer;" onclick="inspectThreat('${aid}')">
       <td style="font-family:monospace; font-size:11px; color:#64748b;">${time}</td>
       <td style="font-family:monospace; font-size:11px; font-weight:bold; color:#dc2626;">
         ${(a.threat_class || "THREAT").replace(/_/g, " ")}
@@ -313,7 +322,7 @@ function renderAlertsTable(tbodyId, rows) {
       <td style="font-family:monospace; font-size:11px; font-weight:bold; color:#0f172a;">${conf}%</td>
       <td><span class="badge ${sevClass}">${sev}</span></td>
       <td style="text-align:right;">
-        <button onclick="event.stopPropagation(); openModal('${aid}')"
+        <button onclick="event.stopPropagation(); inspectThreat('${aid}')"
           class="btn btn-primary" style="padding:3px 8px; font-size:10px;">
           Inspect
         </button>
@@ -342,57 +351,14 @@ function renderThreatsTable() {
   renderAlertsTable("p3_threatsTableBody", rows);
 }
 
-// ─── INTERACTIVE THREAT CARD MODAL (REAL EVIDENCE) ────────────────────────────
+// ─── INSPECT REDIRECTION TO EVIDENCE (PAGE 5) ─────────────────────────────────
+function inspectThreat(aid) {
+  selectedInspectAlertId = aid;
+  switchPage("page5");
+}
+
 function openModal(aid) {
-  const a = alertsMap[aid] || alertsData[0];
-  if (!a) return;
-
-  const conf  = Math.round((a.confidence_score || 0.95) * 100);
-  const score = conf;
-  const sev   = a.severity || "HIGH";
-
-  setText("m_title", `${(a.threat_class || "THREAT").replace(/_/g, " ")} DETECTED`);
-  setText("m_conf",  `${conf}%`);
-  setText("m_det",   "AI + Statistical Engine");
-  setText("m_src",   a.src_ip || "—");
-  setText("m_dst",   a.dst_ip || "—");
-  setText("m_score", `${score} / 100`);
-
-  const sevEl = document.getElementById("m_sev");
-  if (sevEl) {
-    sevEl.innerText = sev;
-    sevEl.style.color = "#dc2626";
-  }
-
-  const evEl = document.getElementById("m_evidence");
-  if (evEl) {
-    const ev = a.evidence || {};
-    const snapshot = a.flow_snapshot || {};
-    const combined = {
-      ...ev,
-      "Packet Count": snapshot.packet_count,
-      "Byte Count":   snapshot.byte_count,
-      "Duration":     snapshot.duration_sec != null ? `${snapshot.duration_sec}s` : undefined,
-      "PPS":          snapshot.pps,
-      "JA3 Hash":     snapshot.ja3_hash,
-      "SNI":          snapshot.sni,
-    };
-    
-    evEl.innerHTML = Object.entries(combined)
-      .filter(([, v]) => v != null && v !== "" && v !== "None" && v !== "N/A")
-      .map(([k, v]) => `
-        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0;
-                    padding-bottom:5px; margin-bottom:5px; font-family:monospace; font-size:11px;">
-          <span style="color:#64748b; text-transform:uppercase;">${k.replace(/_/g, " ")}</span>
-          <span style="color:#0f172a; font-weight:bold;">${v}</span>
-        </div>`).join("") || `<span style="color:#64748b; font-size:11px;">No evidence attributes collected.</span>`;
-  }
-
-  const modal = document.getElementById("threatCardModal");
-  if (modal) {
-    modal.classList.remove("hidden");
-    modal.style.display = "flex";
-  }
+  inspectThreat(aid);
 }
 
 function closeThreatModal() {
@@ -452,29 +418,60 @@ function renderXAI() {
     return;
   }
 
-  container.innerHTML = alertsData.slice(0, 4).map(a => {
+  // If a specific threat was clicked via "Inspect", sort it to the top!
+  let displayAlerts = [...alertsData];
+  if (selectedInspectAlertId) {
+    const target = alertsMap[selectedInspectAlertId];
+    if (target) {
+      displayAlerts = [target, ...alertsData.filter(a => a.alert_id !== selectedInspectAlertId)];
+    }
+  }
+
+  container.innerHTML = displayAlerts.slice(0, 6).map(a => {
+    const isSelected = (selectedInspectAlertId === a.alert_id);
     const ev = a.evidence || {};
-    const features = Object.entries(ev).map(([k, v]) => ({
-      name: k.replace(/_/g, " "),
-      val: v
-    }));
+    const snapshot = a.flow_snapshot || {};
+    const combined = {
+      ...ev,
+      "Packet Count": snapshot.packet_count,
+      "Byte Count":   snapshot.byte_count,
+      "Duration":     snapshot.duration_sec != null ? `${snapshot.duration_sec}s` : undefined,
+      "PPS":          snapshot.pps,
+      "JA3 Hash":     snapshot.ja3_hash,
+      "SNI":          snapshot.sni,
+    };
+    const features = Object.entries(combined).filter(([, v]) => v != null && v !== "" && v !== "None" && v !== "N/A");
+
+    const borderStyle = isSelected ? "border: 2px solid #dc2626; background: #fff5f5;" : "border: 1px solid #e2e8f0; background: #ffffff;";
+    const highlightBadge = isSelected ? `<span style="padding:2px 8px; background:#dc2626; color:#ffffff; font-size:10px; border-radius:4px; font-weight:bold; margin-left:6px;">INSPECTED TARGET</span>` : "";
 
     return `
-      <div class="cyber-card" style="font-family:monospace;">
+      <div class="cyber-card" style="font-family:monospace; ${borderStyle}">
         <div style="display:flex; justify-content:space-between; align-items:center;
                     border-bottom:1px solid #e2e8f0; padding-bottom:8px; margin-bottom:10px;">
-          <span style="font-weight:bold; color:#dc2626; font-size:12px;">${a.alert_id} // ${(a.threat_class || "").replace(/_/g, " ")}</span>
+          <div>
+            <span style="font-weight:bold; color:#dc2626; font-size:12px;">${a.alert_id} // ${(a.threat_class || "").replace(/_/g, " ")}</span>
+            ${highlightBadge}
+          </div>
           <span style="padding:2px 8px; background:#fef2f2; border:1px solid #fecaca;
                        color:#dc2626; font-size:10px; border-radius:4px; font-weight:bold;">EXPLAINABLE AI</span>
         </div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; background:#f8fafc; padding:8px; border-radius:6px; margin-bottom:10px; font-size:11px;">
+          <div><span style="color:#64748b;">Source:</span> <strong style="color:#0f172a;">${a.src_ip || "—"}</strong></div>
+          <div><span style="color:#64748b;">Target:</span> <strong style="color:#0f172a;">${a.dst_ip || "—"}</strong></div>
+          <div><span style="color:#64748b;">Confidence:</span> <strong style="color:#dc2626;">${Math.round((a.confidence_score || 0.95)*100)}%</strong></div>
+          <div><span style="color:#64748b;">Severity:</span> <strong style="color:#dc2626;">${a.severity || "HIGH"}</strong></div>
+        </div>
+
         <div style="font-size:10px; color:#64748b; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">
-          Detection Rationale
+          Forensic Telemetry Evidence
         </div>
         <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:12px;">
-          ${features.map(f => `
-            <div style="display:flex; justify-content:space-between; font-size:11px; padding:2px 0;">
-              <span style="color:#475569;">${f.name}</span>
-              <strong style="color:#0f172a;">${f.val}</strong>
+          ${features.map(([k, v]) => `
+            <div style="display:flex; justify-content:space-between; font-size:11px; padding:2px 0; border-bottom:1px solid #f1f5f9;">
+              <span style="color:#475569;">${k.replace(/_/g, " ")}</span>
+              <strong style="color:#0f172a;">${v}</strong>
             </div>`).join("")}
         </div>
         <div style="font-size:10px; color:#64748b; font-weight:bold; text-transform:uppercase; margin-bottom:6px;">
@@ -492,7 +489,7 @@ function renderXAI() {
           </div>
           <div>
             <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:2px;">
-              <span style="color:#475569;">Shannon Entropy & Statistical Jitter</span>
+              <span style="color:#475569;">Statistical Entropy & Inter-Arrival Jitter</span>
               <span style="color:#dc2626; font-weight:bold;">22%</span>
             </div>
             <div style="width:100%; height:4px; background:#e2e8f0; border-radius:2px; overflow:hidden;">

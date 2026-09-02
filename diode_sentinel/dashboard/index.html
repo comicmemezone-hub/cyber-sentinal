@@ -127,9 +127,16 @@
     
     <!-- TOP STATUS BAR -->
     <header class="top-bar">
-      <div>
-        <h2 id="pageTitle" class="page-heading">Dashboard Overview</h2>
-        <p id="pageSubtitle" class="page-subheading">Real-time passive telemetry stream across hardware diode link</p>
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <button onclick="toggleSidebar()" id="sidebarToggleBtn" class="btn btn-secondary" style="padding: 7px 9px; display: flex; flex-direction: column; justify-content: center; gap: 3px; cursor: pointer;" title="Toggle Sidebar (Pop In / Pop Out)">
+          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+          <span style="display: block; width: 16px; height: 2px; background: #dc2626; border-radius: 1px;"></span>
+        </button>
+        <div>
+          <h2 id="pageTitle" class="page-heading">Dashboard Overview</h2>
+          <p id="pageSubtitle" class="page-subheading">Real-time passive telemetry stream across hardware diode link</p>
+        </div>
       </div>
 
       <div style="display: flex; gap: 8px;">
