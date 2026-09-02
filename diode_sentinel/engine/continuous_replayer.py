@@ -67,6 +67,7 @@ class ContinuousPcapStreamer:
 
         delay = 1.0 / self.rate_pps
 
+        loop_idx = 0
         while self.is_running:
             for pcap_file in pcap_files:
                 if not self.is_running:
@@ -83,10 +84,15 @@ class ContinuousPcapStreamer:
                                 break
                             # Preserve authentic relative timing from PCAP
                             pkt.timestamp = base_ts + (pkt.timestamp - first_pcap_ts)
+                            # On subsequent replay loops, allocate realistic ephemeral client ports
+                            # so loop iterations represent fresh new client sessions instead of artificial beacons
+                            if loop_idx > 0 and pkt.src_port > 1024:
+                                pkt.src_port = ((pkt.src_port + loop_idx * 1337) % 28000) + 32768
                             self.pipeline.process_packet(pkt)
                             self.total_streamed += 1
                             time.sleep(delay)
                 except Exception:
                     pass
 
-                time.sleep(0.5)
+            loop_idx += 1
+            time.sleep(0.5)

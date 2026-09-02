@@ -17,6 +17,11 @@ class C2BeaconDetector:
         self.thresholds = THRESHOLDS["c2_beacon"]
 
     def analyze(self, flow: FlowRecord, aggregator: FlowAggregator) -> Optional[Dict[str, Any]]:
+        # Legitimate recursive DNS traffic (port 53, or well-known public DNS like 8.8.8.8) are not botnet C2 channels
+        PUBLIC_DNS = {"8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1", "9.9.9.9", "208.67.222.222", "208.67.220.220"}
+        if flow.dst_ip in PUBLIC_DNS or flow.dst_port == 53 or flow.src_port == 53:
+            return None
+
         # Need minimum observation count to establish periodicity
         if len(flow.timestamps) < self.thresholds["min_beacon_count"]:
             return None

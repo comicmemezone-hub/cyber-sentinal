@@ -165,6 +165,7 @@ class LiveInterfaceSniffer:
             if not pcap_files:
                 pcap_files = [base_dir / "benign" / "normal_traffic.pcap"]
 
+            loop_idx = 0
             while self.is_running:
                 for pcap_path in pcap_files:
                     if not self.is_running:
@@ -177,9 +178,12 @@ class LiveInterfaceSniffer:
                             break
                         self.total_packets_sniffed += 1
                         pkt.timestamp = time.time()
+                        if loop_idx > 0 and pkt.src_port > 1024:
+                            pkt.src_port = ((pkt.src_port + loop_idx * 1337) % 28000) + 32768
                         self.pipeline.process_packet(pkt)
                         time.sleep(0.03)
 
+                loop_idx += 1
                 time.sleep(0.1)
 
     def _parse_raw_ip_packet(self, data: bytes) -> Optional[DiodePacket]:
