@@ -731,22 +731,10 @@ async function handlePcapUpload(event) {
         setText("pcapDiagMitre", `MITRE ATT&CK: ${data.mitre_technique || "T1046"}`);
         setText("pcapDiagDesc", data.attack_description || "Traffic pattern classified by AI detection engine.");
         setText("pcapDiagConf", `${data.confidence || 98}% CONFIDENCE`);
+        diagBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
       
       fetchAndRenderAll();
-      
-      alert(
-        `FORENSIC PCAP ATTACK REPORT\n` +
-        `===================================================\n` +
-        `File Name: ${file.name}\n` +
-        `Classified Attack: ${data.attack_name}\n` +
-        `MITRE Technique: ${data.mitre_technique}\n` +
-        `Packets Analyzed: ${data.packets_processed}\n` +
-        `Threats Flagged: ${data.threats_detected}\n` +
-        `AI Confidence: ${data.confidence}%\n` +
-        `===================================================\n` +
-        `Diagnosis: ${data.attack_description}`
-      );
     } else {
       if (dropText) dropText.innerText = "Upload failed. Try again.";
     }

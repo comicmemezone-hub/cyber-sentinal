@@ -235,7 +235,7 @@ async def upload_pcap(file: UploadFile = File(...)):
     if packets:
         base_ts = time.time()
         first_pcap_ts = packets[0].timestamp
-        for pkt in packets:
+        for pkt in packets[:3000]:
             # Preserve authentic relative inter-packet arrival time from PCAP
             pkt.timestamp = base_ts + (pkt.timestamp - first_pcap_ts)
             pipeline.process_packet(pkt)
