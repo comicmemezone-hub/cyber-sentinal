@@ -49,6 +49,41 @@ class PcapWriter:
         eth_src = b'\xaa\xbb\xcc\xdd\xee\x22'
         eth_type = struct.pack('!H', 0x0800)  # IPv4
         
+        payload = pkt.payload
+        if pkt.dns_info and not payload:
+            domain = pkt.dns_info.get("domain", "google.com")
+            rec_type = pkt.dns_info.get("record_type", "A")
+            qtype = 16 if rec_type == "TXT" else 1
+            hdr = struct.pack('!HHHHHH', 0x1234, 0x0100, 1, 0, 0, 0)
+            qname = b""
+            for part in domain.strip('.').split('.'):
+                p_bytes = part.encode('utf-8', errors='ignore')
+                qname += bytes([len(p_bytes)]) + p_bytes
+            qname += b"\x00"
+            payload = hdr + qname + struct.pack('!HH', qtype, 1)
+
+        elif pkt.tls_info and not payload:
+            sni = pkt.tls_info.get("sni", "")
+            sni_bytes = sni.encode('utf-8') if sni else b""
+            server_name_ext = b""
+            if sni_bytes:
+                server_name_ext = struct.pack('!HHH', 0, len(sni_bytes) + 5, len(sni_bytes) + 3) + b'\x00' + struct.pack('!H', len(sni_bytes)) + sni_bytes
+            
+            ext_data = server_name_ext
+            ext_len = len(ext_data)
+            ext_block = struct.pack('!H', ext_len) + ext_data if ext_len > 0 else b""
+            ciphers = struct.pack('!HHHH', 6, 0xc02f, 0xc030, 0xcca8)
+            client_random = b'\x01' * 32
+            ch_body = struct.pack('!H', 0x0303) + client_random + b'\x00' + ciphers + b'\x01\x00' + ext_block
+            ch_len = len(ch_body)
+            ch_hdr = struct.pack('!B', 1) + bytes([(ch_len >> 16) & 0xff, (ch_len >> 8) & 0xff, ch_len & 0xff])
+            rec_body = ch_hdr + ch_body
+            rec_hdr = struct.pack('!BHH', 0x16, 0x0301, len(rec_body))
+            payload = rec_hdr + rec_body
+
+        elif not payload and pkt.size > 54:
+            payload = b"\x00" * max(0, pkt.size - 54)
+
         # Build transport layer
         if pkt.protocol == "TCP":
             flags = 0
@@ -67,13 +102,13 @@ class PcapWriter:
                 (5 << 4), flags,
                 8192, 0, 0
             )
-            transport_payload = tcp_hdr + pkt.payload
+            transport_payload = tcp_hdr + payload
             proto_num = 6
         else:
             # UDP Header (8 bytes)
-            udp_len = 8 + len(pkt.payload)
+            udp_len = 8 + len(payload)
             udp_hdr = struct.pack('!HHHH', pkt.src_port, pkt.dst_port, udp_len, 0)
-            transport_payload = udp_hdr + pkt.payload
+            transport_payload = udp_hdr + payload
             proto_num = 17
 
         # IP Header (20 bytes)

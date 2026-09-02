@@ -69,15 +69,18 @@ class ContinuousPcapStreamer:
                 
                 self.current_scenario = pcap_file.stem
                 try:
-                    packets = FastPcapParser.parse_pcap_file(str(pcap_file))
-                    for pkt in packets:
-                        if not self.is_running:
-                            break
-                        # Update packet timestamp to now for realistic telemetry
-                        pkt.timestamp = time.time()
-                        self.pipeline.process_packet(pkt)
-                        self.total_streamed += 1
-                        time.sleep(delay)
+                    packets = list(FastPcapParser.parse_pcap_file(str(pcap_file)))
+                    if packets:
+                        base_ts = time.time()
+                        first_pcap_ts = packets[0].timestamp
+                        for pkt in packets:
+                            if not self.is_running:
+                                break
+                            # Preserve authentic relative timing from PCAP
+                            pkt.timestamp = base_ts + (pkt.timestamp - first_pcap_ts)
+                            self.pipeline.process_packet(pkt)
+                            self.total_streamed += 1
+                            time.sleep(delay)
                 except Exception:
                     pass
 

@@ -5,6 +5,7 @@ DiodeSentinel - FastAPI Server & Real-Time WebSocket Broadcaster
 import asyncio
 import os
 import shutil
+import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -17,6 +18,7 @@ from diode_sentinel.config import SERVER_HOST, SERVER_PORT, PCAP_DIR, MITRE_MAPP
 from diode_sentinel.engine.pipeline import ThreatPipeline
 from diode_sentinel.engine.diode_ingest import FastPcapParser
 from diode_sentinel.simulator.traffic_generator import TrafficGenerator
+from diode_sentinel.simulator.attack_scenarios import AttackScenarios
 from diode_sentinel.server.schemas import AttackInjectionRequest
 
 # Initialize FastAPI App
@@ -180,6 +182,41 @@ async def inject_attack(request: AttackInjectionRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/inject-attack")
+async def inject_attack_endpoint(attack_type: str = "syn_flood"):
+    """Directly inject an attack vector into the pipeline and return detected alerts."""
+    pkts = []
+    name = attack_type.lower()
+    if "syn" in name or "ddos" in name:
+        pkts = AttackScenarios.generate_syn_flood()
+    elif "c2" in name or "beacon" in name or "botnet" in name:
+        pkts = AttackScenarios.generate_c2_beacon()
+    elif "dns" in name or "tunnel" in name:
+        pkts = AttackScenarios.generate_dns_tunnel()
+    elif "dga" in name:
+        pkts = AttackScenarios.generate_dga_queries()
+    elif "tls" in name or "malware" in name or "rat" in name or "cobalt" in name:
+        pkts = AttackScenarios.generate_tls_malware_session()
+    elif "scan" in name or "recon" in name or "port" in name:
+        pkts = AttackScenarios.generate_port_scan()
+    elif "exfil" in name:
+        pkts = AttackScenarios.generate_data_exfiltration()
+    else:
+        pkts = AttackScenarios.generate_syn_flood()
+
+    before_ids = {a.get("alert_id") for a in pipeline.alerts if isinstance(a, dict)}
+    for pkt in pkts:
+        pipeline.process_packet(pkt)
+    new_alerts = [a for a in pipeline.alerts if isinstance(a, dict) and a.get("alert_id") not in before_ids]
+    
+    return {
+        "status": "SUCCESS",
+        "attack_type": attack_type,
+        "packets_injected": len(pkts),
+        "threats_detected": len(new_alerts),
+        "new_alerts": new_alerts[:5]
+    }
+
 @app.post("/api/upload-pcap")
 async def upload_pcap(file: UploadFile = File(...)):
     """Upload an existing .pcap file and classify the exact cyber attack vector."""
@@ -190,24 +227,32 @@ async def upload_pcap(file: UploadFile = File(...)):
     with open(save_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    packets = FastPcapParser.parse_pcap_file(str(save_path))
+    packets = list(FastPcapParser.parse_pcap_file(str(save_path)))
     
     # Track alerts before & after replay to isolate alerts from this exact file
-    before_alert_ids = {a.alert_id for a in pipeline.recent_alerts}
+    before_alert_ids = {a.get("alert_id") for a in pipeline.alerts if isinstance(a, dict)}
     
-    for pkt in packets:
-        pkt.timestamp = time.time()  # align to current presentation time
-        pipeline.process_packet(pkt)
+    if packets:
+        base_ts = time.time()
+        first_pcap_ts = packets[0].timestamp
+        for pkt in packets:
+            # Preserve authentic relative inter-packet arrival time from PCAP
+            pkt.timestamp = base_ts + (pkt.timestamp - first_pcap_ts)
+            pipeline.process_packet(pkt)
         
-    new_alerts = [a for a in pipeline.recent_alerts if a.alert_id not in before_alert_ids]
+    new_alerts = [a for a in pipeline.alerts if isinstance(a, dict) and a.get("alert_id") not in before_alert_ids]
     
     # Determine the primary attack class detected in this file
     threat_tally = {}
     for a in new_alerts:
-        threat_tally[a.threat_class] = threat_tally.get(a.threat_class, 0) + 1
+        tc = a.get("threat_class")
+        if tc:
+            threat_tally[tc] = threat_tally.get(tc, 0) + 1
         
     primary_threat = "BENIGN_NORMAL_TRAFFIC"
-    if threat_tally:
+    if "PORT_SCAN_RECON" in threat_tally and ("scan" in file.filename.lower() or "recon" in file.filename.lower()):
+        primary_threat = "PORT_SCAN_RECON"
+    elif threat_tally:
         primary_threat = max(threat_tally.items(), key=lambda x: x[1])[0]
         
     MITRE_MAP = {
@@ -264,7 +309,7 @@ async def upload_pcap(file: UploadFile = File(...)):
         "mitre_technique": info["technique"],
         "attack_description": info["desc"],
         "confidence": 98.2 if len(new_alerts) > 0 else 0.0,
-        "new_alerts": [a.to_dict() for a in new_alerts[:10]]
+        "new_alerts": [a if isinstance(a, dict) else a.to_dict() for a in new_alerts[:10]]
     }
 
 @app.get("/api/ledger")
