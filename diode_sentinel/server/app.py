@@ -341,7 +341,9 @@ async def start_stream(rate_pps: int = 100):
 
 @app.post("/api/stream/stop")
 async def stop_stream():
-    return streamer.stop()
+    res = streamer.stop()
+    pipeline.aggregator.flows.clear()
+    return res
 
 # Method 2: Live Browser & DNS TAP
 @app.get("/api/tap/status")

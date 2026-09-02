@@ -286,6 +286,14 @@ class FlowAggregator:
             self.active_dst_ports_window = self.active_dst_ports_window[-5000:]
 
     def get_all_active_flows(self) -> List[FlowRecord]:
+        """Return only genuinely active flows within the sliding window and evict inactive ones."""
+        now = time.time()
+        expired_keys = [
+            k for k, flow in self.flows.items()
+            if (now - flow.last_seen) > self.sliding_window_sec
+        ]
+        for k in expired_keys:
+            del self.flows[k]
         return list(self.flows.values())
 
     def get_fanout_stats(self, src_ip: str) -> Dict[str, Any]:
