@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBER SENTINEL // AI Threat Detection Platform</title>
-  <!-- Offline Air-Gapped Chart.js Engine (Zero Internet Dependency) -->
+  <title>CYBER SENTINEL - AI Threat Detection Platform</title>
+  <!-- Chart.js Engine -->
   <script src="chart.min.js"></script>
   <!-- Self-Contained Stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -17,43 +17,36 @@
   <aside class="sidebar">
     <div>
       <div class="brand-header">
-        <div style="padding: 6px 10px; background: #083344; border: 1px solid #00f0ff; border-radius: 8px; color: #00f0ff; font-weight: 800; font-size: 16px;">
-          🛡️
+        <div style="padding: 6px 10px; background: #fee2e2; border: 1px solid #f87171; border-radius: 6px; color: #dc2626; font-weight: 900; font-size: 14px; font-family: monospace;">
+          CS
         </div>
         <div>
           <div class="brand-title">CYBER SENTINEL</div>
-          <div class="brand-subtitle">AIR-GAPPED THREAT SOC</div>
+          <div class="brand-subtitle">AI THREAT DETECTION SOC</div>
         </div>
       </div>
 
       <!-- Navigation Links (7 Pages) -->
       <nav class="nav-menu">
         <button onclick="switchPage('page1')" id="nav-page1" class="nav-item active">
-          <span>📊</span>
           <span>Dashboard</span>
         </button>
         <button onclick="switchPage('page2')" id="nav-page2" class="nav-item">
-          <span>📡</span>
           <span>Traffic Analysis</span>
         </button>
         <button onclick="switchPage('page3')" id="nav-page3" class="nav-item">
-          <span>🚨</span>
           <span>Threats</span>
         </button>
         <button onclick="switchPage('page4')" id="nav-page4" class="nav-item">
-          <span>🤖</span>
           <span>AI Models</span>
         </button>
         <button onclick="switchPage('page5')" id="nav-page5" class="nav-item">
-          <span>🔬</span>
           <span>Evidence (XAI)</span>
         </button>
         <button onclick="switchPage('page6')" id="nav-page6" class="nav-item">
-          <span>📈</span>
           <span>Performance</span>
         </button>
         <button onclick="switchPage('page7')" id="nav-page7" class="nav-item">
-          <span>⚙️</span>
           <span>System</span>
         </button>
       </nav>
@@ -61,12 +54,12 @@
 
     <!-- Hardware Status Footer -->
     <div class="sidebar-footer">
-      <div style="display: flex; align-items: center; gap: 6px; color: #10b981; font-weight: bold; margin-bottom: 4px;">
-        <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
-        <span>HARDWARE DIODE</span>
+      <div style="display: flex; align-items: center; gap: 6px; color: #dc2626; font-weight: bold; margin-bottom: 4px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #dc2626; display: inline-block;"></span>
+        <span>PASSIVE DIODE LINK</span>
       </div>
-      <div style="font-size: 9px; color: #94a3b8; line-height: 1.3;">
-        RX ONLY • ZERO RETURN PATH • PASSIVE ENCLAVE
+      <div style="font-size: 9px; color: #64748b; line-height: 1.3;">
+        RX ONLY • ZERO RETURN PATH • REAL-TIME AI
       </div>
     </div>
   </aside>
@@ -77,13 +70,13 @@
     <!-- TOP STATUS BAR -->
     <header class="top-bar">
       <div>
-        <h2 id="pageTitle" class="page-heading">📊 Dashboard Overview</h2>
+        <h2 id="pageTitle" class="page-heading">Dashboard Overview</h2>
         <p id="pageSubtitle" class="page-subheading">Real-time passive telemetry stream across hardware diode link</p>
       </div>
 
       <div style="display: flex; gap: 8px;">
-        <button onclick="clearPipeline()" class="btn">🔄 Reset</button>
-        <button onclick="exportAlerts()" class="btn btn-primary">💾 Export JSON</button>
+        <button onclick="clearPipeline()" class="btn btn-secondary">Reset</button>
+        <button onclick="exportAlerts()" class="btn btn-primary">Export JSON</button>
       </div>
     </header>
 
@@ -96,22 +89,22 @@
       <div class="kpi-grid">
         <div class="cyber-card">
           <div class="kpi-title">ACTIVE FLOWS</div>
-          <div class="kpi-value" style="color: #00f0ff;" id="p1_flows">0</div>
+          <div class="kpi-value" style="color: #0f172a;" id="p1_flows">0</div>
           <div class="kpi-desc">Sliding 5-tuple window</div>
         </div>
-        <div class="cyber-card">
+        <div class="cyber-card" style="border-color: #fca5a5;">
           <div class="kpi-title">THREATS DETECTED</div>
-          <div class="kpi-value" style="color: #ff3366;" id="p1_threats">0</div>
+          <div class="kpi-value" style="color: #dc2626;" id="p1_threats">0</div>
           <div class="kpi-desc">Across 6 threat classes</div>
         </div>
-        <div class="cyber-card" style="border-color: rgba(255, 51, 102, 0.4);">
+        <div class="cyber-card" style="border-color: #fca5a5;">
           <div class="kpi-title">CRITICAL SEVERITY</div>
-          <div class="kpi-value" style="color: #ff3366;" id="p1_critical">0</div>
+          <div class="kpi-value" style="color: #dc2626;" id="p1_critical">0</div>
           <div class="kpi-desc">Immediate action required</div>
         </div>
         <div class="cyber-card">
           <div class="kpi-title">INGEST RATE</div>
-          <div class="kpi-value" style="color: #3b82f6;" id="p1_flows_sec">0</div>
+          <div class="kpi-value" style="color: #0f172a;" id="p1_flows_sec">0</div>
           <div class="kpi-desc" id="p1_mbps">0.00 Mbps sustained</div>
         </div>
       </div>
@@ -120,11 +113,11 @@
       <div class="grid-2col">
         <!-- Live Activity Graph -->
         <div class="cyber-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px;">
-            <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #f8fafc;">
-              📈 LIVE NETWORK ACTIVITY (Flows/sec)
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
+            <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
+              LIVE NETWORK ACTIVITY (Flows/sec)
             </div>
-            <span style="font-size: 10px; color: #10b981; font-family: monospace;">10 Hz INGEST</span>
+            <span style="font-size: 10px; color: #dc2626; font-weight: bold; font-family: monospace;">10 Hz INGEST</span>
           </div>
           <div style="height: 240px;">
             <canvas id="p1_activityChart"></canvas>
@@ -133,8 +126,8 @@
 
         <!-- Threat Distribution -->
         <div class="cyber-card">
-          <div style="border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 12px; font-size: 12px; font-weight: bold; font-family: monospace; color: #f8fafc;">
-            🎯 THREAT DISTRIBUTION
+          <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px; font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
+            THREAT DISTRIBUTION
           </div>
           <div id="p1_threatDistributionList" style="display: flex; flex-direction: column; gap: 8px;">
             <!-- Populated dynamically -->
@@ -144,11 +137,11 @@
 
       <!-- LATEST REAL-TIME ALERTS TABLE -->
       <div class="cyber-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
-          <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #f8fafc;">
-            🚨 LATEST REAL-TIME ALERTS
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+          <div style="font-size: 12px; font-weight: bold; font-family: monospace; color: #0f172a;">
+            LATEST REAL-TIME ALERTS
           </div>
-          <button onclick="switchPage('page3')" style="background: none; border: none; color: #00f0ff; font-size: 11px; cursor: pointer; font-family: monospace;">
+          <button onclick="switchPage('page3')" style="background: none; border: none; color: #dc2626; font-weight: bold; font-size: 11px; cursor: pointer; font-family: monospace;">
             View All Threats &rarr;
           </button>
         </div>
@@ -178,23 +171,23 @@
     <div id="page2-content" class="hidden">
       
       <!-- DUAL-NODE HACKATHON TEAM MULTI-MACHINE CONNECT BAR -->
-      <div class="cyber-card" style="margin-bottom: 18px; border-color: rgba(0, 240, 255, 0.5); background: linear-gradient(135deg, #09131d 0%, #030712 100%);">
+      <div class="cyber-card" style="margin-bottom: 18px; border-color: #fca5a5; background: #fff5f5;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <div>
-            <div style="font-size: 13px; font-weight: 800; color: #00f0ff; font-family: monospace; display: flex; align-items: center; gap: 8px;">
-              <span>👥 DUAL-NODE HACKATHON MULTI-MACHINE SETUP</span>
-              <span style="font-size: 10px; background: #064e3b; color: #6ee7b7; border: 1px solid #10b981; padding: 2px 6px; border-radius: 4px;">LAN CONNECT READY</span>
+            <div style="font-size: 13px; font-weight: 800; color: #dc2626; font-family: monospace; display: flex; align-items: center; gap: 8px;">
+              <span>MULTI-MACHINE PRESENTATION SETUP</span>
+              <span style="font-size: 10px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171; padding: 2px 6px; border-radius: 4px;">ONLINE & LAN READY</span>
             </div>
-            <p style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 4px;">
-              Teammates on the same Wi-Fi can view this dashboard or launch remote attacks from their laptops.
+            <p style="font-size: 11px; color: #64748b; font-family: monospace; margin-top: 4px;">
+              Teammates on the same network or cloud URL can view this dashboard or launch remote test attacks.
             </p>
           </div>
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <div style="background: #0f172a; border: 1px solid #334155; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
-              <span style="color: #64748b;">Team Dashboard:</span> <strong style="color: #00f0ff;" id="lanDashboardUrl">http://localhost:8000</strong>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
+              <span style="color: #64748b;">Dashboard URL:</span> <strong style="color: #dc2626;" id="lanDashboardUrl">http://localhost:8000</strong>
             </div>
-            <div style="background: #0f172a; border: 1px solid #334155; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
-              <span style="color: #64748b;">Teammate CLI:</span> <code style="color: #10b981;">python team_client.py --interactive</code>
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 6px; font-family: monospace; font-size: 11px;">
+              <span style="color: #64748b;">Teammate CLI:</span> <code style="color: #dc2626;">python team_client.py --interactive</code>
             </div>
           </div>
         </div>
@@ -203,60 +196,60 @@
       <div class="grid-2col" style="margin-bottom: 20px;">
         
         <!-- Method 1: Continuous Real PCAP Pipeline -->
-        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px; border-color: rgba(59, 130, 246, 0.4);">
+        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px; border-color: #fca5a5;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-size: 13px; font-weight: bold; color: #3b82f6; font-family: monospace;">
-              🚀 Method 1: Continuous PCAP Stream
+            <div style="font-size: 13px; font-weight: bold; color: #dc2626; font-family: monospace;">
+              Method 1: Continuous PCAP Stream
             </div>
-            <span id="streamBadge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #082f49; color: #38bdf8; border: 1px solid #0284c7; font-family: monospace;">IDLE</span>
+            <span id="streamBadge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-family: monospace; font-weight: bold;">IDLE</span>
           </div>
-          <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+          <p style="font-size: 11px; color: #64748b; font-family: monospace;">
             Continuously stream authentic benchmark captures into passive diode at wire speed:
           </p>
           <div style="display: flex; gap: 8px;">
-            <select id="streamSpeedSelect" style="background: #0f172a; border: 1px solid #334155; color: #38bdf8; padding: 8px; border-radius: 6px; font-size: 11px; font-family: monospace;">
-              <option value="15">🐢 Slow Demo (15 pkts/s)</option>
-              <option value="40" selected>🚶 Smooth (40 pkts/s)</option>
-              <option value="100">🚀 Standard (100 pkts/s)</option>
-              <option value="300">⚡ High Velocity (300 pkts/s)</option>
+            <select id="streamSpeedSelect" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 8px; border-radius: 6px; font-size: 11px; font-family: monospace; font-weight: bold;">
+              <option value="15">Slow Demo (15 pkts/s)</option>
+              <option value="40" selected>Smooth (40 pkts/s)</option>
+              <option value="100">Standard (100 pkts/s)</option>
+              <option value="300">High Velocity (300 pkts/s)</option>
             </select>
-            <button onclick="startContinuousStream()" id="btnStartStream" class="btn btn-primary" style="flex: 1; padding: 8px; background: #0369a1; border-color: #38bdf8; color: #fff;">
-              ▶ Start Live Stream
+            <button onclick="startContinuousStream()" id="btnStartStream" class="btn btn-primary" style="flex: 1; padding: 8px;">
+              Start Live Stream
             </button>
-            <button onclick="stopContinuousStream()" id="btnStopStream" class="btn" style="padding: 8px 14px; background: #4c0519; border-color: #e11d48; color: #fda4af;">
-              ⏹ Stop
+            <button onclick="stopContinuousStream()" id="btnStopStream" class="btn btn-secondary" style="padding: 8px 14px;">
+              Stop
             </button>
           </div>
           <div style="font-size: 10px; color: #64748b; font-family: monospace;">
-            Streamed: <strong id="streamedCount" style="color: #38bdf8;">0</strong> pkts | Scenario: <strong id="streamScenario" style="color: #cbd5e1;">None</strong>
+            Streamed: <strong id="streamedCount" style="color: #dc2626;">0</strong> pkts | Scenario: <strong id="streamScenario" style="color: #0f172a;">None</strong>
           </div>
         </div>
 
         <!-- Method 2: Physical Hardware Sniffer -->
-        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px; border-color: rgba(16, 185, 129, 0.4);">
+        <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px; border-color: #cbd5e1;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-size: 13px; font-weight: bold; color: #10b981; font-family: monospace;">
-              🔴 Method 2: Physical Hardware Sniffer
+            <div style="font-size: 13px; font-weight: bold; color: #0f172a; font-family: monospace;">
+              Method 2: Physical Hardware Sniffer
             </div>
-            <span id="snifferBadge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #022c22; color: #6ee7b7; border: 1px solid #059669; font-family: monospace;">IDLE</span>
+            <span id="snifferBadge" style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-family: monospace; font-weight: bold;">IDLE</span>
           </div>
-          <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+          <p style="font-size: 11px; color: #64748b; font-family: monospace;">
             Capture real live raw packets directly from physical Wi-Fi / Ethernet adapter:
           </p>
           <div style="display: flex; gap: 8px;">
-            <select id="interfaceSelect" style="flex: 1; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 8px; border-radius: 6px; font-size: 11px; font-family: monospace;">
+            <select id="interfaceSelect" style="flex: 1; background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 8px; border-radius: 6px; font-size: 11px; font-family: monospace; font-weight: bold;">
               <option value="192.168.1.18">192.168.1.18 (Wi-Fi/Ethernet)</option>
               <option value="127.0.0.1">127.0.0.1 (Local Loopback)</option>
             </select>
-            <button onclick="startSniffer()" id="btnStartSniffer" class="btn btn-primary" style="padding: 8px 14px; background: #064e3b; border-color: #10b981; color: #6ee7b7;">
-              ▶ Start Live Sniffer
+            <button onclick="startSniffer()" id="btnStartSniffer" class="btn btn-primary" style="padding: 8px 14px;">
+              Start Live Sniffer
             </button>
-            <button onclick="stopSniffer()" id="btnStopSniffer" class="btn" style="padding: 8px 10px; background: #4c0519; border-color: #e11d48; color: #fda4af;">
-              ⏹ Stop
+            <button onclick="stopSniffer()" id="btnStopSniffer" class="btn btn-secondary" style="padding: 8px 10px;">
+              Stop
             </button>
           </div>
           <div style="font-size: 10px; color: #64748b; font-family: monospace;">
-            Physical Packets: <strong id="sniffedCount" style="color: #10b981;">0</strong>
+            Physical Packets: <strong id="sniffedCount" style="color: #dc2626;">0</strong>
           </div>
         </div>
 
@@ -267,63 +260,63 @@
         
         <!-- Upload Real PCAP -->
         <div class="cyber-card" style="display: flex; flex-direction: column; gap: 10px;">
-          <div style="font-size: 13px; font-weight: bold; color: #00f0ff; font-family: monospace;">
-            📁 Upload Real Forensic PCAP File
+          <div style="font-size: 13px; font-weight: bold; color: #0f172a; font-family: monospace;">
+            Upload Real Forensic PCAP File
           </div>
-          <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
-            Ingest raw binary <code style="color: #00f0ff;">.pcap</code> captures from Wireshark or security labs:
+          <p style="font-size: 11px; color: #64748b; font-family: monospace;">
+            Ingest raw binary <code style="color: #dc2626; font-weight: bold;">.pcap</code> captures from Wireshark or security labs:
           </p>
-          <label style="border: 2px dashed #334155; border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; background: #020617; font-family: monospace; font-size: 12px;">
-            <div style="font-size: 20px; margin-bottom: 4px;">📤</div>
-            <span id="pcapDropText" style="color: #cbd5e1;">Click to Select PCAP File</span>
+          <label style="border: 2px dashed #cbd5e1; border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; background: #f8fafc; font-family: monospace; font-size: 12px;">
+            <div style="font-size: 12px; font-weight: bold; color: #dc2626; margin-bottom: 4px;">UPLOAD PCAP</div>
+            <span id="pcapDropText" style="color: #475569;">Click to Select PCAP File</span>
             <input type="file" id="pcapFileInput" accept=".pcap,.cap" style="display: none;" onchange="handlePcapUpload(event)">
           </label>
         </div>
 
         <!-- 1-Click Attack Bursts -->
         <div class="cyber-card" style="display: flex; flex-direction: column; gap: 8px;">
-          <div style="font-size: 13px; font-weight: bold; color: #f59e0b; font-family: monospace;">
-            ⚡ 1-Click Live Attack Injections
+          <div style="font-size: 13px; font-weight: bold; color: #dc2626; font-family: monospace;">
+            1-Click Live Attack Injections
           </div>
-          <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+          <p style="font-size: 11px; color: #64748b; font-family: monospace;">
             Inject multi-vector cyber attacks into diode stream:
           </p>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-            <button onclick="injectAttack('syn_flood')" class="btn-attack">⚡ SYN Flood</button>
-            <button onclick="injectAttack('c2_beacon')" class="btn-attack">📡 C2 Beacon</button>
-            <button onclick="injectAttack('dns_tunnel')" class="btn-attack">🚇 DNS Tunnel</button>
-            <button onclick="injectAttack('dga')" class="btn-attack">🌐 DGA Domain</button>
-            <button onclick="injectAttack('tls_malware')" class="btn-attack">🔒 TLS JA3 RAT</button>
-            <button onclick="injectAttack('port_scan')" class="btn-attack">🔍 Port Scan</button>
+            <button onclick="injectAttack('syn_flood')" class="btn-attack">SYN Flood</button>
+            <button onclick="injectAttack('c2_beacon')" class="btn-attack">C2 Beacon</button>
+            <button onclick="injectAttack('dns_tunnel')" class="btn-attack">DNS Tunnel</button>
+            <button onclick="injectAttack('dga')" class="btn-attack">DGA Domain</button>
+            <button onclick="injectAttack('tls_malware')" class="btn-attack">TLS JA3 RAT</button>
+            <button onclick="injectAttack('port_scan')" class="btn-attack">Port Scan</button>
           </div>
         </div>
       </div>
 
       <!-- PROCESSING PROGRESS CARD -->
       <div class="cyber-card">
-        <div style="font-size: 12px; font-weight: bold; color: #f8fafc; font-family: monospace; margin-bottom: 12px;">
+        <div style="font-size: 12px; font-weight: bold; color: #0f172a; font-family: monospace; margin-bottom: 12px;">
           PROCESSING TRAFFIC TELEMETRY
         </div>
         <div class="grid-4col" style="font-family: monospace; font-size: 12px; margin-bottom: 14px;">
           <div>
             <div style="color: #64748b; font-size: 10px;">Packets Processed</div>
-            <div style="font-size: 18px; font-weight: bold; color: #00f0ff;" id="p2_pkts">1,245,820</div>
+            <div style="font-size: 18px; font-weight: bold; color: #0f172a;" id="p2_pkts">0</div>
           </div>
           <div>
             <div style="color: #64748b; font-size: 10px;">Flows Generated</div>
-            <div style="font-size: 18px; font-weight: bold; color: #3b82f6;" id="p2_flows">82,421</div>
+            <div style="font-size: 18px; font-weight: bold; color: #0f172a;" id="p2_flows">0</div>
           </div>
           <div>
             <div style="color: #64748b; font-size: 10px;">Current Rate</div>
-            <div style="font-size: 18px; font-weight: bold; color: #10b981;" id="p2_rate">9,820 flows/s</div>
+            <div style="font-size: 18px; font-weight: bold; color: #dc2626;" id="p2_rate">0 flows/s</div>
           </div>
           <div>
             <div style="color: #64748b; font-size: 10px;">Processing Latency</div>
-            <div style="font-size: 18px; font-weight: bold; color: #f59e0b;">0.147 ms</div>
+            <div style="font-size: 18px; font-weight: bold; color: #dc2626;">0.147 ms</div>
           </div>
         </div>
-        <div style="width: 100%; height: 8px; background: #020617; border-radius: 4px; overflow: hidden; border: 1px solid #1e293b;">
-          <div style="width: 87%; height: 100%; background: #00f0ff;"></div>
+        <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+          <div style="width: 100%; height: 100%; background: #dc2626;"></div>
         </div>
       </div>
     </div>
@@ -336,19 +329,19 @@
       <!-- Filters Row -->
       <div class="cyber-card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; padding: 12px 18px;">
         <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-          <span style="font-size: 11px; font-weight: bold; color: #94a3b8; font-family: monospace;">Threat:</span>
+          <span style="font-size: 11px; font-weight: bold; color: #475569; font-family: monospace;">Threat:</span>
           <button onclick="filterThreatClass('ALL')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">All</button>
-          <button onclick="filterThreatClass('VOLUMETRIC_DDOS')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">DDoS</button>
-          <button onclick="filterThreatClass('BOTNET_C2_BEACONING')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">Botnet</button>
-          <button onclick="filterThreatClass('DGA_DNS_TUNNEL')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">DNS / DGA</button>
-          <button onclick="filterThreatClass('ENCRYPTED_MALWARE')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">Encrypted</button>
-          <button onclick="filterThreatClass('PORT_SCAN_RECON')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">Recon</button>
-          <button onclick="filterThreatClass('DATA_EXFILTRATION')" class="threat-filter-btn btn" style="padding: 4px 10px; font-size: 11px;">Exfiltration</button>
+          <button onclick="filterThreatClass('VOLUMETRIC_DDOS')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">DDoS</button>
+          <button onclick="filterThreatClass('BOTNET_C2_BEACONING')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">Botnet</button>
+          <button onclick="filterThreatClass('DGA_DNS_TUNNEL')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">DNS / DGA</button>
+          <button onclick="filterThreatClass('ENCRYPTED_MALWARE')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">Encrypted</button>
+          <button onclick="filterThreatClass('PORT_SCAN_RECON')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">Recon</button>
+          <button onclick="filterThreatClass('DATA_EXFILTRATION')" class="threat-filter-btn btn btn-secondary" style="padding: 4px 10px; font-size: 11px;">Exfiltration</button>
         </div>
 
         <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="font-size: 11px; font-weight: bold; color: #94a3b8; font-family: monospace;">Severity:</span>
-          <select id="p3_severityFilter" onchange="renderThreatsTable()" style="background: #0f172a; border: 1px solid #334155; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-family: monospace;">
+          <span style="font-size: 11px; font-weight: bold; color: #475569; font-family: monospace;">Severity:</span>
+          <select id="p3_severityFilter" onchange="renderThreatsTable()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-family: monospace; font-weight: bold;">
             <option value="ALL">All Severities</option>
             <option value="CRITICAL">Critical</option>
             <option value="HIGH">High</option>
@@ -384,10 +377,10 @@
     <!-- ================================================================= -->
     <div id="page4-content" class="hidden">
       <div class="cyber-card" style="margin-bottom: 16px;">
-        <h3 style="font-size: 15px; font-weight: bold; color: #00f0ff; font-family: monospace; margin-bottom: 4px;">
-          🤖 AI DETECTION ENGINES & MEASURED BENCHMARKS
+        <h3 style="font-size: 15px; font-weight: bold; color: #dc2626; font-family: monospace; margin-bottom: 4px;">
+          AI DETECTION ENGINES & MEASURED BENCHMARKS
         </h3>
-        <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+        <p style="font-size: 11px; color: #64748b; font-family: monospace;">
           Supervised and unsupervised models engineered for zero-decryption passive network traffic classification.
         </p>
       </div>
@@ -402,10 +395,10 @@
     <!-- ================================================================= -->
     <div id="page5-content" class="hidden">
       <div class="cyber-card" style="margin-bottom: 16px;">
-        <h3 style="font-size: 15px; font-weight: bold; color: #00f0ff; font-family: monospace; margin-bottom: 4px;">
-          🔬 FORENSIC EVIDENCE & EXPLAINABLE AI (XAI)
+        <h3 style="font-size: 15px; font-weight: bold; color: #dc2626; font-family: monospace; margin-bottom: 4px;">
+          FORENSIC EVIDENCE & EXPLAINABLE AI (XAI)
         </h3>
-        <p style="font-size: 11px; color: #94a3b8; font-family: monospace;">
+        <p style="font-size: 11px; color: #64748b; font-family: monospace;">
           Demonstrates mathematical rationale and feature importance contributions for flagged security threats.
         </p>
       </div>
@@ -424,37 +417,37 @@
       <div class="grid-5col" style="margin-bottom: 18px;">
         <div class="cyber-card">
           <div class="kpi-title">INPUT RATE</div>
-          <div class="kpi-value" style="color: #00f0ff; font-size: 18px;" id="p6_inRate">0 flows/s</div>
+          <div class="kpi-value" style="color: #0f172a; font-size: 18px;" id="p6_inRate">0 flows/s</div>
         </div>
         <div class="cyber-card">
           <div class="kpi-title">PROCESSED RATE</div>
-          <div class="kpi-value" style="color: #10b981; font-size: 18px;" id="p6_procRate">0 flows/s</div>
+          <div class="kpi-value" style="color: #0f172a; font-size: 18px;" id="p6_procRate">0 flows/s</div>
         </div>
         <div class="cyber-card">
           <div class="kpi-title">DETECTION LATENCY</div>
-          <div class="kpi-value" style="color: #3b82f6; font-size: 18px;" id="p6_lat">0.000 ms</div>
+          <div class="kpi-value" style="color: #dc2626; font-size: 18px;" id="p6_lat">0.000 ms</div>
         </div>
         <div class="cyber-card">
           <div class="kpi-title">CPU UTILIZATION</div>
-          <div class="kpi-value" style="color: #38bdf8; font-size: 18px;" id="p6_cpu">0.0%</div>
+          <div class="kpi-value" style="color: #0f172a; font-size: 18px;" id="p6_cpu">0.0%</div>
         </div>
         <div class="cyber-card">
           <div class="kpi-title">MEMORY ALLOCATED</div>
-          <div class="kpi-value" style="color: #a855f7; font-size: 18px;" id="p6_mem">0.0 GB</div>
+          <div class="kpi-value" style="color: #0f172a; font-size: 18px;" id="p6_mem">0.0 GB</div>
         </div>
       </div>
 
       <!-- Live Throughput Benchmark Runner -->
       <div class="cyber-card" style="display: flex; flex-direction: column; gap: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
-          <h3 style="font-size: 12px; font-weight: bold; color: #f8fafc; font-family: monospace;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">
+          <h3 style="font-size: 12px; font-weight: bold; color: #0f172a; font-family: monospace;">
             SUSTAINED INGESTION THROUGHPUT LOAD TEST
           </h3>
           <button onclick="runPerformanceBenchmark(25000)" class="btn btn-primary" style="padding: 8px 18px;">
-            🚀 Run 25,000-Packet Live Load Test
+            Run 25,000-Packet Live Load Test
           </button>
         </div>
-        <div id="p6_benchResult" style="padding: 16px; background: #020617; border: 1px solid #1e293b; border-radius: 8px; font-family: monospace; font-size: 12px; color: #94a3b8;">
+        <div id="p6_benchResult" style="padding: 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace; font-size: 12px; color: #475569;">
           Click the button above to benchmark sustained packet processing velocity and per-packet inference latency on this host.
         </div>
       </div>
@@ -467,64 +460,66 @@
       
       <!-- Compliance Badges -->
       <div class="cyber-card" style="margin-bottom: 18px;">
-        <h3 style="font-size: 14px; font-weight: bold; color: #f8fafc; font-family: monospace; margin-bottom: 12px;">
-          🛡️ PROBLEM STATEMENT 26145 COMPLIANCE MATRIX
+        <h3 style="font-size: 14px; font-weight: bold; color: #0f172a; font-family: monospace; margin-bottom: 12px;">
+          PROBLEM STATEMENT 26145 COMPLIANCE MATRIX
         </h3>
         <div class="grid-3col" style="font-family: monospace; font-size: 11px;">
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Passive Ingest: ACTIVE</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">One-way optical / hardware diode replication.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Passive Ingest: ACTIVE</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">One-way optical / hardware diode replication.</p>
           </div>
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Read-Only Mode: ACTIVE</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">Zero inline packet modification or blocking socket.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Read-Only Mode: ACTIVE</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">Zero inline packet modification or blocking socket.</p>
           </div>
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Payload Decryption: DISABLED</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">Strict JA3/JA4 fingerprinting & SPLT sequence analysis.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Payload Decryption: DISABLED</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">Strict JA3/JA4 fingerprinting & SPLT sequence analysis.</p>
           </div>
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Active Probing: DISABLED</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">No handshake completion or active ping probes.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Active Probing: DISABLED</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">No handshake completion or active ping probes.</p>
           </div>
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Return Path: NONE</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">Air-gapped unidirectional monitoring enclave.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Return Path: NONE</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">Air-gapped unidirectional monitoring enclave.</p>
           </div>
-          <div style="padding: 12px; background: #020617; border-radius: 6px; border: 1px solid #064e3b;">
-            <div style="color: #10b981; font-weight: bold;">🟢 Hash-Chain Ledger: ACTIVE</div>
-            <p style="color: #94a3b8; font-size: 10px; margin-top: 4px;">SHA-256 tamper-evident forensic audit trail.</p>
+          <div style="padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div style="color: #dc2626; font-weight: bold;">Hash-Chain Ledger: ACTIVE</div>
+            <p style="color: #64748b; font-size: 10px; margin-top: 4px;">SHA-256 tamper-evident forensic audit trail.</p>
           </div>
         </div>
       </div>
 
       <!-- Architecture Pipeline Diagram -->
       <div class="cyber-card" style="margin-bottom: 18px;">
-        <h3 style="font-size: 12px; font-weight: bold; color: #00f0ff; font-family: monospace; margin-bottom: 10px;">
+        <h3 style="font-size: 12px; font-weight: bold; color: #dc2626; font-family: monospace; margin-bottom: 10px;">
           END-TO-END ENCLAVE PIPELINE ARCHITECTURE (PDF SPECIFICATION)
         </h3>
-        <pre style="background: #020617; padding: 14px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 11px; overflow-x: auto; line-height: 1.5;">
-PCAP / FLOW STREAM ──► READ-ONLY DIODE INGEST ──► 5-TUPLE AGGREGATOR ──► FEATURE EXTRACTION
-                                                                                 │
- ┌───────────────────────────────────────────────────────────────────────────────┘
- ▼
-┌──────────────────────┐      ┌──────────────────────┐      ┌──────────────────────────┐
-│   Lane 1: Rules &    │      │ Lane 2: Unsupervised │      │   Lane 3: Supervised     │
-│   Rate Statistics    │      │  Anomaly & Spectral  │      │    Machine Learning      │
-│  (DDoS & Port Scan)  │      │  (C2 Beacon & Exfil) │      │  (DGA, DNS & TLS JA3)    │
-└──────────────────────┘      └──────────────────────┘      └──────────────────────────┘
-           │                             │                               │
-           └─────────────────────────────┼───────────────────────────────┘
-                                         ▼
-                      THREAT SCORING ENGINE (0 - 100)
-                                         │
-                   ┌─────────────────────┴─────────────────────┐
-                   ▼                                           ▼
-       SQLITE PERSISTENT STORE                   SHA-256 HASH-CHAIN LEDGER
-                   │                                           │
-                   └─────────────────────┬─────────────────────┘
-                                         ▼
-                         REAL-TIME WEBSOCKET / SOC DASHBOARD
+        <pre style="background: #f8fafc; padding: 14px; border-radius: 6px; border: 1px solid #e2e8f0; color: #1e293b; font-size: 11px; overflow-x: auto; line-height: 1.5; font-family: 'Consolas', monospace;">
+PCAP / FLOW STREAM ---> READ-ONLY DIODE INGEST ---> 5-TUPLE AGGREGATOR ---> FEATURE EXTRACTION
+                                                                                 |
+ +-------------------------------------------------------------------------------+
+ |
+ v
++----------------------+      +----------------------+      +--------------------------+
+|   Lane 1: Rules &    |      | Lane 2: Unsupervised |      |   Lane 3: Supervised     |
+|   Rate Statistics    |      |  Anomaly & Spectral  |      |    Machine Learning      |
+|  (DDoS & Port Scan)  |      |  (C2 Beacon & Exfil) |      |  (DGA, DNS & TLS JA3)    |
++----------------------+      +----------------------+      +--------------------------+
+           |                             |                               |
+           +-----------------------------+-------------------------------+
+                                         |
+                                         v
+                       THREAT SCORING ENGINE (0 - 100)
+                                         |
+                   +---------------------+---------------------+
+                   v                                           v
+        SQLITE PERSISTENT STORE                   SHA-256 HASH-CHAIN LEDGER
+                   |                                           |
+                   +---------------------+---------------------+
+                                         v
+                          REAL-TIME WEBSOCKET / SOC DASHBOARD
         </pre>
       </div>
 
@@ -532,15 +527,15 @@ PCAP / FLOW STREAM ──► READ-ONLY DIODE INGEST ──► 5-TUPLE AGGREGATOR
       <div class="grid-2col">
         <div class="cyber-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h3 style="font-size: 12px; font-weight: bold; color: #10b981; font-family: monospace;">
-              ⛓️ SHA-256 AUDIT LEDGER INTEGRITY
+            <h3 style="font-size: 12px; font-weight: bold; color: #dc2626; font-family: monospace;">
+              SHA-256 AUDIT LEDGER INTEGRITY
             </h3>
             <button onclick="verifyLedgerIntegrity()" class="btn btn-primary" style="padding: 4px 10px; font-size: 10px;">
               Verify Chain
             </button>
           </div>
-          <div id="p7_ledgerStatus" style="font-size: 11px; color: #94a3b8; font-family: monospace; line-height: 1.6;">
-            • Status: <strong style="color: #10b981;">CRYPTOGRAPHICALLY VERIFIED</strong><br>
+          <div id="p7_ledgerStatus" style="font-size: 11px; color: #475569; font-family: monospace; line-height: 1.6;">
+            • Status: <strong style="color: #dc2626;">CRYPTOGRAPHICALLY VERIFIED</strong><br>
             • Algorithm: <code>SHA-256 Immutable Hash Chaining</code><br>
             • Genesis Hash: <code>0000000000000000000000000000000000000000000000000000000000000000</code><br>
             • Chain File: <code>diode_sentinel/data/forensic_audit_ledger.jsonl</code>
@@ -548,16 +543,16 @@ PCAP / FLOW STREAM ──► READ-ONLY DIODE INGEST ──► 5-TUPLE AGGREGATOR
         </div>
 
         <div class="cyber-card">
-          <h3 style="font-size: 12px; font-weight: bold; color: #3b82f6; font-family: monospace; margin-bottom: 10px;">
-            🎯 MITRE ATT&CK ENTERPRISE MAPPINGS
+          <h3 style="font-size: 12px; font-weight: bold; color: #0f172a; font-family: monospace; margin-bottom: 10px;">
+            MITRE ATT&CK ENTERPRISE MAPPINGS
           </h3>
-          <div style="font-size: 10px; font-family: monospace; color: #cbd5e1; line-height: 1.7;">
-            <div>• <strong style="color: #00f0ff;">T1498:</strong> Network Denial of Service (SYN Flood)</div>
-            <div>• <strong style="color: #00f0ff;">T1071.004:</strong> Application Layer Protocol: DNS Tunneling</div>
-            <div>• <strong style="color: #00f0ff;">T1046:</strong> Network Service Discovery (Port Scan Recon)</div>
-            <div>• <strong style="color: #00f0ff;">T1568:</strong> Dynamic Resolution: Domain Generation (DGA)</div>
-            <div>• <strong style="color: #00f0ff;">T1573:</strong> Encrypted Channel: TLS JA3 Fingerprinting</div>
-            <div>• <strong style="color: #00f0ff;">T1048:</strong> Exfiltration Over Alternative Protocol</div>
+          <div style="font-size: 10px; font-family: monospace; color: #475569; line-height: 1.7;">
+            <div>• <strong style="color: #dc2626;">T1498:</strong> Network Denial of Service (SYN Flood)</div>
+            <div>• <strong style="color: #dc2626;">T1071.004:</strong> Application Layer Protocol: DNS Tunneling</div>
+            <div>• <strong style="color: #dc2626;">T1046:</strong> Network Service Discovery (Port Scan Recon)</div>
+            <div>• <strong style="color: #dc2626;">T1568:</strong> Dynamic Resolution: Domain Generation (DGA)</div>
+            <div>• <strong style="color: #dc2626;">T1573:</strong> Encrypted Channel: TLS JA3 Fingerprinting</div>
+            <div>• <strong style="color: #dc2626;">T1048:</strong> Exfiltration Over Alternative Protocol</div>
           </div>
         </div>
       </div>
@@ -567,50 +562,47 @@ PCAP / FLOW STREAM ──► READ-ONLY DIODE INGEST ──► 5-TUPLE AGGREGATOR
 </div>
 
 <!-- ===================================================================== -->
-<!-- CLICKABLE THREAT CARD MODAL (EXACT USER SPEC) -->
+<!-- CLICKABLE THREAT CARD MODAL -->
 <!-- ===================================================================== -->
 <div id="threatCardModal" class="modal-overlay" style="display:none;">
   <div class="modal-card">
     
     <!-- Modal Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 14px;">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 18px;">🚨</span>
-        <h2 id="m_title" style="font-size: 15px; font-weight: bold; color: #fff;">DDoS DETECTED</h2>
-      </div>
-      <button onclick="closeThreatModal()" style="background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer; font-weight: bold;">✕</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 14px;">
+      <h2 id="m_title" style="font-size: 15px; font-weight: bold; color: #dc2626;">DDoS DETECTED</h2>
+      <button onclick="closeThreatModal()" style="background: none; border: none; color: #64748b; font-size: 16px; cursor: pointer; font-weight: bold;">X</button>
     </div>
 
     <!-- Core Metrics -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #020617; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 14px;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 14px;">
       <div>
         <div style="color: #64748b; font-size: 10px;">Confidence</div>
-        <div id="m_conf" style="font-size: 16px; font-weight: bold; color: #00f0ff; margin-top: 2px;">97%</div>
+        <div id="m_conf" style="font-size: 16px; font-weight: bold; color: #dc2626; margin-top: 2px;">97%</div>
       </div>
       <div>
         <div style="color: #64748b; font-size: 10px;">Severity</div>
-        <div id="m_sev" style="font-size: 16px; font-weight: bold; color: #ff3366; margin-top: 2px;">CRITICAL</div>
+        <div id="m_sev" style="font-size: 16px; font-weight: bold; color: #dc2626; margin-top: 2px;">CRITICAL</div>
       </div>
       <div>
         <div style="color: #64748b; font-size: 10px;">Detection</div>
-        <div id="m_det" style="font-size: 11px; font-weight: bold; color: #f8fafc; margin-top: 4px;">AI + Statistical</div>
+        <div id="m_det" style="font-size: 11px; font-weight: bold; color: #0f172a; margin-top: 4px;">AI + Statistical</div>
       </div>
     </div>
 
     <!-- Source / Destination -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #020617; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 14px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 14px;">
       <div>
         <div style="color: #64748b; font-size: 10px; margin-bottom: 2px;">SOURCE</div>
-        <div id="m_src" style="font-weight: bold; color: #f59e0b;">10.0.0.25</div>
+        <div id="m_src" style="font-weight: bold; color: #0f172a;">10.0.0.25</div>
       </div>
       <div>
         <div style="color: #64748b; font-size: 10px; margin-bottom: 2px;">DESTINATION</div>
-        <div id="m_dst" style="font-weight: bold; color: #00f0ff;">10.0.0.100</div>
+        <div id="m_dst" style="font-weight: bold; color: #0f172a;">10.0.0.100</div>
       </div>
     </div>
 
     <!-- Evidence -->
-    <div style="background: #020617; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 14px;">
+    <div style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 14px;">
       <div style="font-size: 10px; font-weight: bold; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">EVIDENCE</div>
       <div id="m_evidence" style="display: flex; flex-direction: column; gap: 6px;">
         <!-- Dynamic Evidence -->
@@ -618,14 +610,14 @@ PCAP / FLOW STREAM ──► READ-ONLY DIODE INGEST ──► 5-TUPLE AGGREGATOR
     </div>
 
     <!-- Threat Score -->
-    <div style="background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <div style="font-size: 12px; font-weight: bold; color: #f8fafc;">THREAT SCORE</div>
-      <div id="m_score" style="font-size: 20px; font-weight: 800; color: #ff3366;">96 / 100</div>
+    <div style="background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fecaca; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div style="font-size: 12px; font-weight: bold; color: #0f172a;">THREAT SCORE</div>
+      <div id="m_score" style="font-size: 20px; font-weight: 800; color: #dc2626;">96 / 100</div>
     </div>
 
     <!-- Close Button -->
     <div style="display: flex; justify-content: flex-end;">
-      <button onclick="closeThreatModal()" class="btn" style="padding: 8px 18px;">Close Inspector</button>
+      <button onclick="closeThreatModal()" class="btn btn-primary" style="padding: 8px 18px;">Close Inspector</button>
     </div>
   </div>
 </div>
