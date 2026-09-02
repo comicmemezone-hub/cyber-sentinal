@@ -297,10 +297,19 @@ class FlowAggregator:
         return list(self.flows.values())
 
     def get_fanout_stats(self, src_ip: str) -> Dict[str, Any]:
-        """Return fanout breadth (unique ports and destinations probed)."""
+        """Return fanout breadth (unique ports and destinations probed) within the sliding window."""
+        active_flows = self.get_all_active_flows()
+        src_flows = [f for f in active_flows if f.src_ip == src_ip]
+        unique_ports = {f.dst_port for f in src_flows}
+        unique_ips = {f.dst_ip for f in src_flows}
+        total_syn = sum(f.syn_count for f in src_flows)
+        total_packets = sum(f.packet_count for f in src_flows)
+        syn_only_count = sum(1 for f in src_flows if f.syn_count > 0 and f.ack_count == 0)
+        
         return {
-            "unique_ports_count": len(self.src_ip_ports_accessed.get(src_ip, set())),
-            "unique_ips_count": len(self.src_ip_dst_ips_accessed.get(src_ip, set())),
-            "total_syn_count": self.src_ip_syns.get(src_ip, 0),
-            "total_packet_count": self.src_ip_packets.get(src_ip, 0)
+            "unique_ports_count": len(unique_ports),
+            "unique_ips_count": len(unique_ips),
+            "total_syn_count": total_syn,
+            "total_packet_count": total_packets,
+            "syn_only_count": syn_only_count
         }

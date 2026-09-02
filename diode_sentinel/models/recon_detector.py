@@ -22,10 +22,15 @@ class PortScanDetector:
         unique_ports = fanout["unique_ports_count"]
         unique_ips = fanout["unique_ips_count"]
         syn_count = fanout["total_syn_count"]
+        syn_only_count = fanout.get("syn_only_count", 0)
         pkt_count = fanout["total_packet_count"]
 
-        # 1. Vertical Port Scan (Single Target IP, many ports probed)
-        if unique_ports >= self.thresholds["min_unique_ports_window"]:
+        # Port scan / sweep requires active SYN probe activity (T1046: SYN scanning / host probing)
+        if syn_count < 5 and syn_only_count < 4:
+            return None
+
+        # 1. Vertical Port Scan (Single Target IP, many ports probed with SYN)
+        if unique_ports >= self.thresholds["min_unique_ports_window"] and (syn_count >= 6 or syn_only_count >= 4):
             confidence = min(0.99, 0.75 + (unique_ports / 100.0))
             severity = "HIGH" if unique_ports > 30 else "MEDIUM"
             
@@ -45,8 +50,8 @@ class PortScanDetector:
                 "summary": f"Vertical Port Scan from {src_ip}: {unique_ports} unique ports probed (Target: {flow.dst_ip})"
             }
 
-        # 2. Horizontal Subnet Sweep (Single/Few ports, many target IPs)
-        if unique_ips >= self.thresholds["min_unique_ips_window"]:
+        # 2. Horizontal Subnet Sweep (Single/Few ports, many target IPs probed with SYN)
+        if unique_ips >= self.thresholds["min_unique_ips_window"] and (syn_count >= 6 or syn_only_count >= 4):
             confidence = min(0.98, 0.70 + (unique_ips / 50.0))
             severity = "HIGH" if unique_ips > 20 else "MEDIUM"
             
