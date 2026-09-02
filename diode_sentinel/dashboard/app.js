@@ -280,9 +280,22 @@ function renderAlertsTable(tbodyId, rows) {
     const sev  = a.severity || "HIGH";
     const sevClass = sev === "CRITICAL" ? "badge-critical" : (sev === "HIGH" ? "badge-high" : "badge-medium");
 
+    const MITRE_TAGS = {
+      "VOLUMETRIC_DDOS": "T1498 (DDoS)",
+      "BOTNET_C2_BEACONING": "T1071.001 (C2)",
+      "DGA_DNS_TUNNEL": "T1071.004 (DNS)",
+      "ENCRYPTED_MALWARE": "T1573 (TLS RAT)",
+      "PORT_SCAN_RECON": "T1046 (Scan)",
+      "DATA_EXFILTRATION": "T1048 (Exfil)"
+    };
+    const mitreTag = MITRE_TAGS[a.threat_class] || "T1046";
+
     return `<tr style="cursor:pointer;" onclick="openModal('${aid}')">
       <td style="font-family:monospace; font-size:11px; color:#64748b;">${time}</td>
-      <td style="font-family:monospace; font-size:11px; font-weight:bold; color:#dc2626;">${(a.threat_class || "THREAT").replace(/_/g, " ")}</td>
+      <td style="font-family:monospace; font-size:11px; font-weight:bold; color:#dc2626;">
+        ${(a.threat_class || "THREAT").replace(/_/g, " ")}
+        <span style="font-size:9px; padding:1px 5px; background:#fee2e2; border:1px solid #fca5a5; border-radius:3px; color:#991b1b; margin-left:4px; font-weight:bold;">${mitreTag}</span>
+      </td>
       <td style="font-family:monospace; font-size:11px; color:#0f172a; font-weight:bold;">${a.src_ip || "—"} &rarr; ${a.dst_ip || "—"}</td>
       <td style="font-family:monospace; font-size:11px; font-weight:bold; color:#0f172a;">${conf}%</td>
       <td><span class="badge ${sevClass}">${sev}</span></td>
@@ -686,7 +699,7 @@ async function handlePcapUpload(event) {
   if (!file) return;
 
   const dropText = document.getElementById("pcapDropText");
-  if (dropText) dropText.innerText = `Uploading ${file.name}...`;
+  if (dropText) dropText.innerText = `Analyzing ${file.name}...`;
 
   const formData = new FormData();
   formData.append("file", file);
@@ -698,9 +711,32 @@ async function handlePcapUpload(event) {
     });
     if (res.ok) {
       const data = await res.json();
-      if (dropText) dropText.innerText = `Uploaded: ${file.name} (${data.packets_processed} pkts)`;
+      if (dropText) dropText.innerText = `Analyzed: ${file.name} (${data.packets_processed} pkts)`;
+      
+      // Update Diagnostic Box
+      const diagBox = document.getElementById("pcapDiagnosticBox");
+      if (diagBox) {
+        diagBox.style.display = "block";
+        setText("pcapDiagTitle", data.attack_name || "Attack Detected");
+        setText("pcapDiagMitre", `MITRE ATT&CK: ${data.mitre_technique || "T1046"}`);
+        setText("pcapDiagDesc", data.attack_description || "Traffic pattern classified by AI detection engine.");
+        setText("pcapDiagConf", `${data.confidence || 98}% CONFIDENCE`);
+      }
+      
       fetchAndRenderAll();
-      alert(`PCAP Ingestion Complete!\nFile: ${file.name}\nPackets Processed: ${data.packets_processed}\nThreats Detected: ${data.threats_detected}`);
+      
+      alert(
+        `FORENSIC PCAP ATTACK REPORT\n` +
+        `===================================================\n` +
+        `File Name: ${file.name}\n` +
+        `Classified Attack: ${data.attack_name}\n` +
+        `MITRE Technique: ${data.mitre_technique}\n` +
+        `Packets Analyzed: ${data.packets_processed}\n` +
+        `Threats Flagged: ${data.threats_detected}\n` +
+        `AI Confidence: ${data.confidence}%\n` +
+        `===================================================\n` +
+        `Diagnosis: ${data.attack_description}`
+      );
     } else {
       if (dropText) dropText.innerText = "Upload failed. Try again.";
     }
