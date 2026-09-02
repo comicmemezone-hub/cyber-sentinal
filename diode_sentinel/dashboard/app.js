@@ -687,9 +687,11 @@ async function verifyLedgerIntegrity() {
 // ─── METHOD 1: CONTINUOUS PCAP STREAM ─────────────────────────────────────────
 async function startContinuousStream() {
   try {
-    const res = await fetch("/api/stream/start?rate_pps=100", { method: "POST" });
+    const sel = document.getElementById("streamSpeedSelect");
+    const speed = sel ? sel.value : "40";
+    const res = await fetch(`/api/stream/start?rate_pps=${speed}`, { method: "POST" });
     const d = await res.json();
-    updateStreamUI(true, d.rate_pps);
+    updateStreamUI(true, d.rate_pps || speed);
     checkStreamStatus();
   } catch(e) {}
 }

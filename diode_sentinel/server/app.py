@@ -137,6 +137,13 @@ async def get_app_js():
         return FileResponse(str(js_path), media_type="application/javascript")
     raise HTTPException(status_code=404, detail="app.js not found")
 
+@app.get("/chart.min.js")
+async def get_chart_js():
+    p = DASHBOARD_DIR / "chart.min.js"
+    if p.exists():
+        return FileResponse(str(p), media_type="application/javascript")
+    raise HTTPException(status_code=404, detail="chart.min.js not found")
+
 # REST API Endpoints
 
 @app.get("/api/status")

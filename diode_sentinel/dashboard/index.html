@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CYBER SENTINEL // AI Threat Detection Platform</title>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Offline Air-Gapped Chart.js Engine (Zero Internet Dependency) -->
+  <script src="chart.min.js"></script>
   <!-- Self-Contained Stylesheet -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -214,6 +214,12 @@
             Continuously stream authentic benchmark captures into passive diode at wire speed:
           </p>
           <div style="display: flex; gap: 8px;">
+            <select id="streamSpeedSelect" style="background: #0f172a; border: 1px solid #334155; color: #38bdf8; padding: 8px; border-radius: 6px; font-size: 11px; font-family: monospace;">
+              <option value="15">🐢 Slow Demo (15 pkts/s)</option>
+              <option value="40" selected>🚶 Smooth (40 pkts/s)</option>
+              <option value="100">🚀 Standard (100 pkts/s)</option>
+              <option value="300">⚡ High Velocity (300 pkts/s)</option>
+            </select>
             <button onclick="startContinuousStream()" id="btnStartStream" class="btn btn-primary" style="flex: 1; padding: 8px; background: #0369a1; border-color: #38bdf8; color: #fff;">
               ▶ Start Live Stream
             </button>
