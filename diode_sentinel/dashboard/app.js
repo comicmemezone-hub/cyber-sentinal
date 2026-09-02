@@ -60,6 +60,12 @@ function resetDisplayToZero() {
   setText("p1_critical", "0");
   setText("p1_flows_sec", "0");
   setText("p1_mbps", "0.00 Mbps");
+  setText("sb_count_scan", "0");
+  setText("sb_count_ddos", "0");
+  setText("sb_count_c2", "0");
+  setText("sb_count_dns", "0");
+  setText("sb_count_malware", "0");
+  setText("sb_count_exfil", "0");
   renderThreatDistribution({});
   renderAlertsTable("p1_latestAlertsBody", []);
 }
@@ -237,6 +243,13 @@ function renderThreatDistribution(counts) {
     "Exfiltration": counts.DATA_EXFILTRATION   || 0,
     "Encrypted":    counts.ENCRYPTED_MALWARE   || 0
   };
+
+  setText("sb_count_scan", (MAP["Port Scan"] || 0).toLocaleString());
+  setText("sb_count_ddos", (MAP["DDoS"] || 0).toLocaleString());
+  setText("sb_count_c2", (MAP["Beaconing"] || 0).toLocaleString());
+  setText("sb_count_dns", (MAP["DNS Tunnel"] || 0).toLocaleString());
+  setText("sb_count_malware", (MAP["Encrypted"] || 0).toLocaleString());
+  setText("sb_count_exfil", (MAP["Exfiltration"] || 0).toLocaleString());
 
   const total = Object.values(MAP).reduce((a, b) => a + b, 0);
 

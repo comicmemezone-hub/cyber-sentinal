@@ -51,28 +51,61 @@
         </button>
       </nav>
 
-      <!-- TEAM / CONTRIBUTORS SECTION -->
+      <!-- MONITORED ATTACK VECTORS IN SIDEBAR -->
       <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #e2e8f0;">
-        <div style="font-size: 10px; font-weight: bold; color: #dc2626; text-transform: uppercase; margin-bottom: 6px; font-family: monospace; letter-spacing: 0.5px;">
-          TEAM MEMBERS
+        <div style="font-size: 10px; font-weight: bold; color: #dc2626; text-transform: uppercase; margin-bottom: 8px; font-family: monospace; letter-spacing: 0.5px;">
+          MONITORED ATTACK VECTORS
         </div>
         <div style="display: flex; flex-direction: column; gap: 4px; font-family: monospace; font-size: 11px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
-            <span style="font-weight: bold; color: #0f172a;" id="teamMember1">Member 1</span>
-            <span style="font-size: 9px; padding: 1px 4px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">Lead</span>
+          
+          <div onclick="switchPage('page3'); filterThreatClass('PORT_SCAN_RECON');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">Port Scan Recon</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1046</div>
+            </div>
+            <span id="sb_count_scan" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
-            <span style="font-weight: bold; color: #0f172a;" id="teamMember2">Member 2</span>
-            <span style="font-size: 9px; padding: 1px 4px; background: #f1f5f9; color: #475569; border-radius: 3px; font-weight: bold;">AI / ML</span>
+
+          <div onclick="switchPage('page3'); filterThreatClass('VOLUMETRIC_DDOS');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">Volumetric DDoS</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1498</div>
+            </div>
+            <span id="sb_count_ddos" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
-            <span style="font-weight: bold; color: #0f172a;" id="teamMember3">Member 3</span>
-            <span style="font-size: 9px; padding: 1px 4px; background: #f1f5f9; color: #475569; border-radius: 3px; font-weight: bold;">Cyber</span>
+
+          <div onclick="switchPage('page3'); filterThreatClass('BOTNET_C2_BEACONING');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">Botnet C2 Beacon</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1071.001</div>
+            </div>
+            <span id="sb_count_c2" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px;">
-            <span style="font-weight: bold; color: #0f172a;" id="teamMember4">Member 4</span>
-            <span style="font-size: 9px; padding: 1px 4px; background: #f1f5f9; color: #475569; border-radius: 3px; font-weight: bold;">Full-Stack</span>
+
+          <div onclick="switchPage('page3'); filterThreatClass('DGA_DNS_TUNNEL');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">DNS Tunnel & DGA</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1071.004</div>
+            </div>
+            <span id="sb_count_dns" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
           </div>
+
+          <div onclick="switchPage('page3'); filterThreatClass('ENCRYPTED_MALWARE');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">TLS Malware RAT</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1573 (JA3)</div>
+            </div>
+            <span id="sb_count_malware" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
+          </div>
+
+          <div onclick="switchPage('page3'); filterThreatClass('DATA_EXFILTRATION');" style="display: flex; justify-content: space-between; align-items: center; padding: 5px 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer;">
+            <div>
+              <div style="font-weight: bold; color: #0f172a; font-size: 10px;">Data Exfiltration</div>
+              <div style="font-size: 8px; color: #dc2626;">MITRE T1048</div>
+            </div>
+            <span id="sb_count_exfil" style="font-size: 9px; padding: 1px 5px; background: #fee2e2; color: #dc2626; border-radius: 3px; font-weight: bold;">0</span>
+          </div>
+
         </div>
       </div>
     </div>
