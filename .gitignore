@@ -22,3 +22,21 @@ ENV/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Scratch and presentation tools
+slide_renders_base/
+slide_renders_optimized/
+enhanced_diagram.*
+slide3_extracted_img_*.png
+template_dump.txt
+analyze_template.py
+apply_full_optimization.py
+build_enhanced_diagram.py
+dump_new_pptx.py
+export_slides_to_png.py
+inspect_extracted_img.py
+inspect_pptx.py
+inspect_slide3_layout.py
+optimize_presentation.py
+update_slide3_diagram.py
+
